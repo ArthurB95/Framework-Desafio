@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../styles/postagens.css">
+  <link rel="icon" type="imagem/jpeg" href="../images/icon.jpeg" />
+  <title>Framework - Posts</title>
+</head>
+
+<body>
+
+  <div id='principal'>
+    <div id='header'>
+      <a href='../pages/menu.html'><img class='logo' src='../images/framework_logo.png'></a>
+    </div>
+
+    <div class='button'>
+      <button onClick='main()'>Clique para aparecer a API</button>
+      <button onClick='reset()'>Reset</button>
+    </div>
+
+    <div id='tabela'></div>
+  </div>
+
+</body>
+
+<script>
+
+  function reset() {
+    window.location.reload()
+  }
+
+  function fazGet(url) {
+    let request = new XMLHttpRequest()
+    request.open("GET", url, false)
+    request.send()
+    return request.responseText
+  }
+
+  function criaLinha(usuario) {
+    console.log(usuario)
+    linha = document.createElement("tr");
+    tdUserId = document.createElement("td");
+    tdId = document.createElement("td");
+    tdTitle = document.createElement("td");
+    tdBody = document.createElement("td");
+
+    tdUserId.innerHTML = usuario.userId
+    tdId.innerHTML = usuario.id
+    tdTitle.innerHTML = usuario.title
+    tdBody.innerHTML = usuario.body
+
+    linha.appendChild(tdUserId);
+    linha.appendChild(tdId);
+    linha.appendChild(tdTitle);
+    linha.appendChild(tdBody);
+
+    return linha;
+  }
+
+  function main() {
+    let data = fazGet("https://jsonplaceholder.typicode.com/posts");
+    let usuarios = JSON.parse(data);
+    let tabela = document.getElementById("tabela");
+    usuarios.forEach(element => {
+      let linha = criaLinha(element);
+      tabela.appendChild(linha);
+    });
+  }
+
+</script>
+
+</html>
